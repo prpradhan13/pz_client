@@ -10,21 +10,21 @@ function Home() {
   const [isTrainingFormOpen, setIsTrainingFormOpen] = useState(false);
   const box = useRef();
 
-  useGSAP(() => {
-    let tl = gsap.timeline();
-    tl.from(".h1Anim", {
-      scale: 0.5,
-      duration: 0.5,
-      opacity: 0,
-      stagger: 0.15,
-    }).from(".pAnim", {
-      y: -30,
-      opacity: 0,
-      stagger: 0.15,
-      duration: 0.5,
-      // ease: "bounce.out",
-    });
-  }, {scope: box});
+  // useGSAP(() => {
+  //   let tl = gsap.timeline();
+  //   tl.from(".h1Anim", {
+  //     scale: 0.5,
+  //     duration: 0.5,
+  //     opacity: 0,
+  //     stagger: 0.15,
+  //   }).from(".pAnim", {
+  //     y: -30,
+  //     opacity: 0,
+  //     stagger: 0.15,
+  //     duration: 0.5,
+  //     // ease: "bounce.out",
+  //   });
+  // }, {scope: box});
 
   const handleExpense = () => {
     setIsFormOpen(true);
@@ -37,12 +37,12 @@ function Home() {
   return (
     <section
       ref={box}
-      className="text-white w-full h-screen px-5 py-2 font-montserrat"
+      className="w-full h-screen px-5 py-2 font-montserrat"
     >
       <div className="w-full h-full flex justify-center items-center flex-col gap-4">
-        <h1 className="h1Anim capitalize text-primaryTextColor text-5xl font-semibold">
+        <h1 className="h1Anim capitalize text-primaryTextColor text-4xl lg:text-5xl font-semibold text-center">
           Welcome to{" "}
-          <span className="text-borderColor font-pacifico font-medium">
+          <span className="text-borderColor font-pacifico font-medium text-5xl">
             project zero
           </span>
         </h1>

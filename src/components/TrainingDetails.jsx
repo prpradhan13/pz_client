@@ -6,10 +6,10 @@ function TrainingDetails({ selectedTraining, setTrainingDetailsOpen }) {
   return (
     <div className="w-full h-full p-5 scrollbar-hidden-y overflow-y-scroll font-montserrat">
       <button
-        className="mb-4 px-2 py-1 bg-borderColor text-black rounded-full font-semibold"
+        className="mt-10 ml-4 md:mt-0 md:mb-4 px-2 py-1 bg-borderColor text-black rounded-full font-semibold flex"
         onClick={() => setTrainingDetailsOpen(false)}
       >
-        <MdKeyboardArrowLeft fontSize={"1.5rem"} />
+        <MdKeyboardArrowLeft fontSize={"1.5rem"} /><span>Back</span>
       </button>
 
       <div className="w-full p-6 rounded-lg">

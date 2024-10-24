@@ -139,12 +139,12 @@ function Expense() {
         </div>
       ) : (
         <div className="w-full h-full p-5 scrollbar-hidden-y overflow-y-scroll">
-          <button
-            className="mb-4 px-2 py-1 bg-borderColor text-black rounded-full font-semibold"
-            onClick={() => setSelectedMonth(null)}
-          >
-            <MdKeyboardArrowLeft fontSize={"1.5rem"} />
-          </button>
+            <button
+              className="mt-10 ml-4 md:mt-0 md:mb-4 px-2 py-1 bg-borderColor text-black rounded-full font-semibold flex"
+              onClick={() => setSelectedMonth(null)}
+            >
+              <MdKeyboardArrowLeft fontSize={"1.5rem"} /> <span>Back</span>
+            </button>
 
           <div className="p-5 flex justify-between items-center">
             <div className="">
@@ -158,14 +158,14 @@ function Expense() {
             </div>
             <button
               onClick={generatePDF}
-              className="bg-borderColor w-[150px] text-pr lg:text-lg font-semibold rounded-lg px-4 py-1 shadow-[1px_3px_35px_-9px_rgba(255,138,101,1)]"
+              className="bg-borderColor md:w-[150px] text-pr lg:text-lg font-semibold rounded-full md:rounded-lg p-4 md:px-4 md:py-1 shadow-[1px_3px_35px_-9px_rgba(255,138,101,1)]"
               disabled={loadingPdf}
             >
               {loadingPdf ? (
                 "...."
               ) : (
                 <div className="flex justify-center items-center gap-1">
-                  <FaArrowDown /> Expense
+                  <FaArrowDown />  <span className="hidden md:block">Expense</span>
                 </div>
               )}
             </button>

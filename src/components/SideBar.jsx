@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { SecondaryButton } from "./buttons/Buttons";
 import toast from "react-hot-toast";
 import axios from "axios";
@@ -9,17 +10,20 @@ import { IoLogOutOutline } from "react-icons/io5";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { FaRegCircleUser } from "react-icons/fa6";
+import { IoMdClose } from "react-icons/io";
 
-function SideBar() {
+function SideBar({ isSideBarOpen, setIsSideBarOpen }) {
   const { setUser } = useAuth();
   const navigate = useNavigate();
 
   const clickExpense = async () => {
     navigate("/user-expense");
+    setIsSideBarOpen(false)
   };
 
   const clickTraining = () => {
     navigate("/user-training")
+    setIsSideBarOpen(false)
   };
 
   const handleLogout = async () => {
@@ -32,6 +36,7 @@ function SideBar() {
       setUser(null);
       toast.success("Logged out successfull");
       navigate("/register");
+      setIsSideBarOpen(false)
     } catch (error) {
       console.log(error);
     }
@@ -39,6 +44,7 @@ function SideBar() {
 
   const clickProfile = () => {
     navigate("/user-profile");
+    setIsSideBarOpen(false)
   }
 
   useGSAP(() => {
@@ -51,9 +57,16 @@ function SideBar() {
   });
 
   return (
-    <div className="w-full bg-cardBackground h-full p-5 font-montserrat">
-      <div className="logoAnim text-borderColor font-pacifico font-extrabold text-2xl pb-2">
-        PZ
+    <div className="w-[45vw] md:w-[15vw] bg-cardBackground h-full p-5 font-montserrat fixed top-0 left-0 md:relative">
+      <div className="flex justify-between pb-2">
+        <h1 className="logoAnim text-borderColor font-pacifico font-extrabold text-2xl">PZ</h1>
+        <button
+          type="button"
+          onClick={() => setIsSideBarOpen((prev) => !prev)}
+          className={`${isSideBarOpen ? 'text-primaryTextColor' : 'lg:hidden'} `}
+        >
+          <IoMdClose fontSize={'1.8rem'}/>
+        </button>
       </div>
       <div className="w-full min-h-[85%] flex flex-col gap-2 pt-4">
         <div className="logoAnim">
