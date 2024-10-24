@@ -30,7 +30,7 @@ export const SecondaryButton = ({
     <button
       type={type}
       onClick={onClick}
-      className={`btnAnim ${isLoading ? "bg-[#000000ea] cursor-not-allowed" : "bg-mainBgColor"} ${btnColor} w-full flex items-center gap-2 rounded-lg font-medium tracking-wide p-3 leading-6 ${
+      className={`btnAnim ${isLoading ? "bg-[#000000ea] cursor-not-allowed justify-center" : "bg-mainBgColor"} ${btnColor} w-full flex items-center gap-2 rounded-lg font-medium tracking-wide p-3 leading-6 ${
         btnName === "Logout" ? "hover:text-red-500" : "hover:text-borderColor"
       } ease-linear duration-150 capitalize`}
       disabled={isLoading}

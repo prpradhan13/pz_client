@@ -11,10 +11,12 @@ import "jspdf-autotable";
 import { FaArrowDown } from "react-icons/fa6";
 import Loaders from "../components/loaders/Loaders";
 import ExpenseTable from "../components/ExpenseTable";
+import ExpenseForm from "../components/forms/ExpenseForm";
 
 function Expense() {
   const [selectedMonth, setSelectedMonth] = useState(null);
   const [loadingPdf, setLoadingPdf] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["expense"],
@@ -99,9 +101,20 @@ function Expense() {
           <p className="text-primaryTextColor text-2xl font-semibold capitalize">
             You have no expenses
           </p>
-          <div className="">
+          <div
+            onClick={() => setIsFormOpen(true)}
+            className=""
+          >
             <ThirdButton btnName={"create one"} />
           </div>
+          {isFormOpen && (
+            <div
+              onClick={() => setIsFormOpen(false)}
+              className="w-full h-screen bg-black absolute top-0 left-0 bg-opacity-80"
+            >
+              <ExpenseForm setIsFormOpen={setIsFormOpen} />
+            </div>
+          )}
         </div>
       </div>
     );
@@ -139,12 +152,12 @@ function Expense() {
         </div>
       ) : (
         <div className="w-full h-full p-5 scrollbar-hidden-y overflow-y-scroll">
-            <button
-              className="mt-10 ml-4 md:mt-0 md:mb-4 px-2 py-1 bg-borderColor text-black rounded-full font-semibold flex"
-              onClick={() => setSelectedMonth(null)}
-            >
-              <MdKeyboardArrowLeft fontSize={"1.5rem"} /> <span>Back</span>
-            </button>
+          <button
+            className="mt-10 ml-4 md:mt-0 md:mb-4 px-2 py-1 bg-borderColor text-black rounded-full font-semibold flex"
+            onClick={() => setSelectedMonth(null)}
+          >
+            <MdKeyboardArrowLeft fontSize={"1.5rem"} /> <span>Back</span>
+          </button>
 
           <div className="p-5 flex justify-between items-center">
             <div className="">
@@ -165,7 +178,8 @@ function Expense() {
                 "...."
               ) : (
                 <div className="flex justify-center items-center gap-1">
-                  <FaArrowDown />  <span className="hidden md:block">Expense</span>
+                  <FaArrowDown />{" "}
+                  <span className="hidden md:block">Expense</span>
                 </div>
               )}
             </button>

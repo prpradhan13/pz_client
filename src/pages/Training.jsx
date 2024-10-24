@@ -10,11 +10,13 @@ import { IoMdCheckmark, IoMdClose } from "react-icons/io";
 import toast from "react-hot-toast";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import TrainingForm from "../components/forms/TrainingForm";
 
 function Training() {
   const [trainingDetailsOpen, setTrainingDetailsOpen] = useState(false);
   const [selectedTraining, setSelectedTraining] = useState(null);
   const [selectedTrainingToDelete, setSelectedTrainingToDelete] = useState(false);
+  const [isTrainingFormOpen, setIsTrainingFormOpen] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -94,9 +96,20 @@ function Training() {
           <p className="text-primaryTextColor text-2xl font-semibold capitalize">
             You have no Training Plans
           </p>
-          <div className="">
+          <div
+            onClick={() => setIsTrainingFormOpen(true)}
+            className=""
+          >
             <ThirdButton btnName={"create one"} />
           </div>
+          {isTrainingFormOpen && (
+            <div
+              onClick={() => setIsTrainingFormOpen(false)}
+              className="w-full h-screen bg-black absolute top-0 left-0 bg-opacity-80"
+            >
+              <TrainingForm setIsTrainingFormOpen={setIsTrainingFormOpen}/>
+            </div>
+          )}
         </div>
       </div>
     );

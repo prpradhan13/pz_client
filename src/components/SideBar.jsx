@@ -11,8 +11,10 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
+import { useState } from "react";
 
 function SideBar({ isSideBarOpen, setIsSideBarOpen }) {
+  const [isLogoutLoading, setIsLogoutLoading] = useState(false);
   const { setUser } = useAuth();
   const navigate = useNavigate();
 
@@ -27,6 +29,7 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen }) {
   };
 
   const handleLogout = async () => {
+    setIsLogoutLoading(true);
     try {
       await axios.post(
         `${import.meta.env.VITE_API_URL}/api/v1/user/logout`,
@@ -39,6 +42,8 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen }) {
       setIsSideBarOpen(false)
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLogoutLoading(false)
     }
   };
 
@@ -81,7 +86,7 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen }) {
       </div>
 
       <div className="logoAnim text-primaryTextColor w-full">
-        <SecondaryButton btnName={"Logout"} onClick={handleLogout} btnIcon={<IoLogOutOutline />} btnColor="text-red-500" />
+        <SecondaryButton btnName={"Logout"} onClick={handleLogout} btnIcon={<IoLogOutOutline />} btnColor="text-red-500" isLoading={isLogoutLoading} />
       </div>
     </div>
   );

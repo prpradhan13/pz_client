@@ -173,7 +173,7 @@ function TrainingForm({ setIsTrainingFormOpen }) {
 
           {/* Current Exercise Fields */}
           <div className="">
-            <h2 className="text-lg font-medium">Create Plan</h2>
+            <h2 className="text-lg font-medium text-primaryTextColor">Create Plan</h2>
             <div className="bg-mainBgColor p-2 rounded-lg">
               <div className="flex flex-col gap-1">
                 {/* Exercise Name */}
