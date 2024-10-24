@@ -89,8 +89,8 @@ function Training() {
     data?.trainingData?.length === 0
   ) {
     return (
-      <div className="w-full h-full flex justify-center items-center">
-        <div className="w-[30vw] h-[30vh] bg-cardBackground rounded-lg flex flex-col justify-center items-center gap-3">
+      <div className="w-full h-full flex justify-center items-center p-10">
+        <div className="w-full md:w-[30vw] h-[30vh] bg-cardBackground rounded-lg flex flex-col justify-center items-center gap-3">
           <p className="text-primaryTextColor text-2xl font-semibold capitalize">
             You have no Training Plans
           </p>
