@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: Montserrat;
+  src: url(/font/Montserrat-VariableFont_wght.ttf) format("truetype");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Pacifico;
+  src: url(/font/Pacifico-Regular.ttf) format("truetype");
+  font-style: normal;
+}
+
+/* For Webkit browsers */
+.scrollbar-hidden-y::-webkit-scrollbar {
+  display: none; /* Hide scrollbar */
+}
+
+/* For Firefox */
+.scrollbar-hidden-y {
+  scrollbar-width: none; /* Hide scrollbar */
+}
