@@ -69,6 +69,13 @@ function ExpenseForm({ setIsFormOpen }) {
       className="w-[400px] bg-cardBackground min-h-[300px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg overflow-hidden font-montserrat"
     >
       <div className="w-full h-full p-5">
+        <button
+          type="button"
+          onClick={() => setIsFormOpen(false)}
+          className="text-red-500 absolute right-2 top-2"
+        >
+          <IoClose fontSize={'1.5rem'}/>
+        </button>
         <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-1">
             <label
@@ -172,7 +179,7 @@ function ExpenseForm({ setIsFormOpen }) {
           {expenseList.length > 0 ? (
             <MainButton type="submit" btnName="Create" isLoading={isCreateLoading} />
           ) : (
-            <p className="text-center">
+            <p className="text-center text-secondaryText">
               *Click on Add then on Create 
             </p>
           )}

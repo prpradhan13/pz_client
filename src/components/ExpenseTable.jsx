@@ -109,8 +109,8 @@ function ExpenseTable({ expensesByMonth, selectedMonth, setSelectedMonth }) {
           </h1>
 
           {/* Date Filters */}
-          <div className="flex justify-between mb-5">
-            <div className="flex items-center text-primaryTextColor">
+          <div className="md:flex md:justify-between mb-5">
+            <div className="flex items-center text-primaryTextColor mb-2 md:mb-0">
               <label htmlFor="startDate" className="mr-3 font-medium">
                 Start Date:
               </label>
@@ -149,51 +149,53 @@ function ExpenseTable({ expensesByMonth, selectedMonth, setSelectedMonth }) {
                 No Data Available
               </div>
             ) : (
-              <table className="w-full text-secondaryText">
-                <thead>
-                  <tr className="text-lg font-semibold text-borderColor text-center">
-                    <td>Items</td>
-                    <td>Price</td>
-                    <td>Date</td>
-                    <td>Category</td>
-                    <td>Edit</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  {currentExpenses.map((expense) => (
-                    <tr
-                      key={expense._id}
-                      className="text-center font-medium capitalize"
-                    >
-                      <td className="p-2"> {expense.item} </td>
-                      <td> {expense.price} </td>
-                      <td> {dayjs(expense.date).format("DD MMMM YYYY")} </td>
-                      <td> {expense.category} </td>
-                      <td className="">
-                        <button
-                          type="button"
-                          onClick={() => clickOnUpdateIcon(expense)}
-                          className="mr-7 text-blue-500"
-                        >
-                          <FaRegPenToSquare fontSize={"1.3rem"} />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleDelete(expense._id)}
-                          className="text-red-500"
-                          disabled={isDeleting} // Disable the button while deleting
-                        >
-                          {isDeleting ? (
-                            <span>Loading...</span> // Render loading text or spinner
-                          ) : (
-                            <MdDelete fontSize={"1.5rem"} />
-                          )}
-                        </button>
-                      </td>
+              <div className="w-full overflow-x-scroll md:overflow-hidden">
+                <table className="text-secondaryText md:w-full w-[100vw]">
+                  <thead>
+                    <tr className="text-lg font-semibold text-borderColor text-center">
+                      <td>Items</td>
+                      <td>Price</td>
+                      <td>Date</td>
+                      <td>Category</td>
+                      <td>Edit</td>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {currentExpenses.map((expense) => (
+                      <tr
+                        key={expense._id}
+                        className="text-center font-medium capitalize"
+                      >
+                        <td className="p-2"> {expense.item} </td>
+                        <td> {expense.price} </td>
+                        <td> {dayjs(expense.date).format("DD MMMM YYYY")} </td>
+                        <td> {expense.category} </td>
+                        <td className="">
+                          <button
+                            type="button"
+                            onClick={() => clickOnUpdateIcon(expense)}
+                            className="mr-7 text-blue-500"
+                          >
+                            <FaRegPenToSquare fontSize={"1.3rem"} />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleDelete(expense._id)}
+                            className="text-red-500"
+                            disabled={isDeleting} // Disable the button while deleting
+                          >
+                            {isDeleting ? (
+                              <span>Loading...</span> // Render loading text or spinner
+                            ) : (
+                              <MdDelete fontSize={"1.5rem"} />
+                            )}
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </div>
 

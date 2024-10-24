@@ -4,6 +4,7 @@ import { MainButton } from "../buttons/Buttons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateExpenseData } from "../../API/expenseAPI";
 import toast from "react-hot-toast";
+import { IoClose } from "react-icons/io5";
 
 function UpdateForm({ setUpdateForm, selectedUpdateData }) {
   const [formData, setFormData] = useState({
@@ -60,6 +61,13 @@ function UpdateForm({ setUpdateForm, selectedUpdateData }) {
       className="w-[400px] bg-cardBackground min-h-[300px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg overflow-hidden font-montserrat"
     >
       <div className="w-full h-full p-5">
+      <button
+          type="button"
+          onClick={() => setUpdateForm(false)}
+          className="text-red-500 absolute right-2 top-2"
+        >
+          <IoClose fontSize={'1.5rem'} />
+        </button>
         <form className="flex flex-col gap-2" onSubmit={handleUpdate}>
           <div className="flex flex-col gap-1">
             <label

@@ -181,10 +181,12 @@ function Expense() {
               expensesByMonth={expensesByMonth}
               selectedMonth={selectedMonth}
             />
-            <RoundPie
-              expensesByMonth={expensesByMonth}
-              selectedMonth={selectedMonth}
-            />
+            <div className="hidden md:block">
+              <RoundPie
+                expensesByMonth={expensesByMonth}
+                selectedMonth={selectedMonth}
+              />
+            </div>
           </div>
 
           <div className="w-full">

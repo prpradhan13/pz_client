@@ -81,7 +81,7 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen }) {
       </div>
 
       <div className="logoAnim text-primaryTextColor w-full">
-        <SecondaryButton btnName={"Logout"} onClick={handleLogout} btnIcon={<IoLogOutOutline />}/>
+        <SecondaryButton btnName={"Logout"} onClick={handleLogout} btnIcon={<IoLogOutOutline />} btnColor="text-red-500" />
       </div>
     </div>
   );
