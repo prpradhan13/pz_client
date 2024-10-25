@@ -102,8 +102,8 @@ function ExpenseTable({ expensesByMonth, selectedMonth, setSelectedMonth }) {
 
   return (
     <>
-      <div className="w-full p-5">
-        <div className="bg-cardBackground rounded-lg p-3">
+      <div className="w-full mt-6 md:p-5 md:mt-0">
+        <div className="">
           <h1 className="text-primaryTextColor font-bold text-center text-xl pb-3">
             Expense Details
           </h1>
@@ -122,7 +122,7 @@ function ExpenseTable({ expensesByMonth, selectedMonth, setSelectedMonth }) {
                   setStartDate(e.target.value);
                   handleDateChange();
                 }}
-                className="p-2 bg-mainBgColor rounded-lg text-sm"
+                className="p-2 bg-cardBackground rounded-lg text-sm"
               />
             </div>
             <div className="flex items-center text-primaryTextColor">
@@ -137,7 +137,7 @@ function ExpenseTable({ expensesByMonth, selectedMonth, setSelectedMonth }) {
                   setEndDate(e.target.value);
                   handleDateChange();
                 }}
-                className="p-2 bg-mainBgColor rounded-lg text-sm"
+                className="p-2 bg-cardBackground rounded-lg text-sm"
               />
             </div>
           </div>
@@ -149,45 +149,45 @@ function ExpenseTable({ expensesByMonth, selectedMonth, setSelectedMonth }) {
                 No Data Available
               </div>
             ) : (
-              <div className="w-full overflow-x-scroll md:overflow-hidden">
-                <table className="text-secondaryText md:w-full w-[100vw]">
-                  <thead>
-                    <tr className="text-lg font-semibold text-borderColor text-center">
-                      <td>Items</td>
-                      <td>Price</td>
-                      <td>Date</td>
-                      <td>Category</td>
-                      <td>Edit</td>
+              <div className="w-full bg-cardBackground rounded-lg overflow-x-auto md:overflow-hidden">
+                <table className="text-secondaryText w-full">
+                  <thead className="border-b">
+                    <tr className="text-lg font-semibold text-borderColor">
+                      <td className="w-20 md:w-28 p-3 text-base tracking-wider">Date</td>
+                      <td className="w-20 md:w-28 p-3 text-base tracking-wider">Price</td>
+                      <td className="p-3 text-base tracking-wider">Items</td>
+                      <td className="w-20 md:w-32 p-3 text-base tracking-wider">Category</td>
+                      <td className="p-3 w-20 text-base tracking-wider">Edit</td>
                     </tr>
                   </thead>
                   <tbody>
                     {currentExpenses.map((expense) => (
                       <tr
                         key={expense._id}
-                        className="text-center font-medium capitalize"
+                        className="font-medium capitalize odd:bg-mainBgColor"
                       >
-                        <td className="p-2"> {expense.item} </td>
-                        <td> {expense.price} </td>
-                        <td> {dayjs(expense.date).format("DD MMMM YYYY")} </td>
-                        <td> {expense.category} </td>
-                        <td className="">
+                        <td className="p-3 text-sm whitespace-nowrap"> {dayjs(expense.date).format("DD/MM/YY")} </td>
+                        <td className="p-3 text-sm whitespace-nowrap"> {expense.price} </td>
+                        <td className="p-3 text-sm whitespace-nowrap"> {expense.item} </td>
+                        <td className="p-3 text-sm whitespace-nowrap"> {expense.category} </td>
+                        <td className="p-3 grid grid-cols-2 gap-7">
                           <button
                             type="button"
                             onClick={() => clickOnUpdateIcon(expense)}
-                            className="mr-7 text-blue-500"
+                            className="text-blue-500 text-[1.1rem] md:text-[1.5rem] "
                           >
-                            <FaRegPenToSquare fontSize={"1.3rem"} />
+                            <FaRegPenToSquare />
                           </button>
                           <button
                             type="button"
                             onClick={() => handleDelete(expense._id)}
-                            className="text-red-500"
+                            className="text-red-500 text-[1.2rem] md:text-[1.5rem]"
                             disabled={isDeleting} // Disable the button while deleting
                           >
                             {isDeleting ? (
                               <span>Loading...</span> // Render loading text or spinner
                             ) : (
-                              <MdDelete fontSize={"1.5rem"} />
+                              <MdDelete />
                             )}
                           </button>
                         </td>

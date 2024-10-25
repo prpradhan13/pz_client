@@ -30,16 +30,23 @@ export const SecondaryButton = ({
     <button
       type={type}
       onClick={onClick}
-      className={`btnAnim ${isLoading ? "bg-[#000000ea] cursor-not-allowed justify-center" : "bg-mainBgColor"} ${btnColor} w-full flex items-center gap-2 rounded-lg font-medium tracking-wide p-3 leading-6 ${
+      className={`btnAnim ${
+        isLoading
+          ? "bg-[#000000ea] cursor-not-allowed"
+          : "bg-mainBgColor"
+      } ${btnColor} w-full flex items-center justify-center md:justify-start gap-2 rounded-lg font-medium p-3 ${
         btnName === "Logout" ? "hover:text-red-500" : "hover:text-borderColor"
-      } ease-linear duration-150 capitalize`}
+      } ease-linear duration-150`}
       disabled={isLoading}
     >
-      {isLoading ? (<BtnLoading />) : (
+      {isLoading ? (
+        <BtnLoading />
+      ) : (
         <>
-        <span className="text-[1.1rem]"> {btnIcon} </span>
-        {btnName}
-      </>)}
+          <span className="text-[1.5rem] md:text-[1.2rem]"> {btnIcon} </span>
+          <span className="hidden md:block text-lg capitalize leading-6 tracking-wide"> {btnName} </span>
+        </>
+      )}
     </button>
   );
 };
@@ -56,10 +63,14 @@ export const ThirdButton = ({
     <button
       type={type}
       onClick={onClick}
-      className={`${isLoading ? "bg-[#000000ea] cursor-not-allowed" : "bg-borderColor"} ${textSize} w-full capitalize ${textColor} flex justify-center items-center gap-2 font-semibold rounded-lg px-5 py-2 shadow-[1px_3px_35px_-9px_rgba(255,138,101,1)]`}
+      className={`${
+        isLoading ? "bg-[#000000ea] cursor-not-allowed" : "bg-borderColor"
+      } ${textSize} w-full capitalize ${textColor} flex justify-center items-center gap-2 font-semibold rounded-lg px-5 py-2 shadow-[1px_3px_35px_-9px_rgba(255,138,101,1)]`}
       disabled={isLoading}
     >
-      {isLoading ? (<BtnLoading />) : (
+      {isLoading ? (
+        <BtnLoading />
+      ) : (
         <>
           <FaPlus />
           {btnName}

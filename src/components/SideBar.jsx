@@ -10,10 +10,9 @@ import { IoLogOutOutline } from "react-icons/io5";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { FaRegCircleUser } from "react-icons/fa6";
-import { IoMdClose } from "react-icons/io";
 import { useState } from "react";
 
-function SideBar({ isSideBarOpen, setIsSideBarOpen }) {
+function SideBar({ setIsSideBarOpen }) {
   const [isLogoutLoading, setIsLogoutLoading] = useState(false);
   const { setUser } = useAuth();
   const navigate = useNavigate();
@@ -62,32 +61,28 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen }) {
   });
 
   return (
-    <div className="w-[45vw] md:w-[15vw] bg-cardBackground h-full p-5 font-montserrat fixed top-0 left-0 md:relative">
+    <div className="w-[20vw] flex flex-col items-center md:block md:w-[15vw] bg-cardBackground h-full p-6 font-montserrat fixed top-0 left-0 md:relative">
+      
       <div className="flex justify-between pb-2">
         <h1 className="logoAnim text-borderColor font-pacifico font-extrabold text-2xl">PZ</h1>
-        <button
-          type="button"
-          onClick={() => setIsSideBarOpen((prev) => !prev)}
-          className={`${isSideBarOpen ? 'text-primaryTextColor' : 'lg:hidden'} `}
-        >
-          <IoMdClose fontSize={'1.8rem'}/>
-        </button>
       </div>
-      <div className="w-full min-h-[85%] flex flex-col gap-2 pt-4">
-        <div className="logoAnim">
-          <SecondaryButton btnName={"Expenses"} onClick={clickExpense} btnIcon={<SiExpensify />}/>
+      <div className="w-[10vw] flex flex-col justify-between h-full md:h-0">
+        <div className="flex flex-col gap-2 pt-4">
+          <div className="logoAnim">
+            <SecondaryButton btnName={"Expenses"} onClick={clickExpense} btnIcon={<SiExpensify />}/>
+          </div>
+          <div className="logoAnim">
+            <SecondaryButton btnName={"Training"} onClick={clickTraining} btnIcon={<IoFitness />}/>
+          </div>
+          <div className="logoAnim">
+            <SecondaryButton btnName={"Profile"} onClick={clickProfile} btnIcon={<FaRegCircleUser />} />
+          </div>
         </div>
-        <div className="logoAnim">
-          <SecondaryButton btnName={"Training"} onClick={clickTraining} btnIcon={<IoFitness />}/>
-        </div>
-        <div className="logoAnim">
-          <SecondaryButton btnName={"Profile"} onClick={clickProfile} btnIcon={<FaRegCircleUser />} />
+        <div className="logoAnim md:mt-2">
+          <SecondaryButton btnName={"Logout"} onClick={handleLogout} btnIcon={<IoLogOutOutline />} btnColor="text-red-500" isLoading={isLogoutLoading} />
         </div>
       </div>
 
-      <div className="logoAnim text-primaryTextColor w-full">
-        <SecondaryButton btnName={"Logout"} onClick={handleLogout} btnIcon={<IoLogOutOutline />} btnColor="text-red-500" isLoading={isLogoutLoading} />
-      </div>
     </div>
   );
 }
