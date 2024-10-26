@@ -2,7 +2,7 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AuthProvider } from "./context/AuthContext";
 import Loaders from "./components/loaders/Loaders";
 
@@ -14,12 +14,14 @@ const HomePage = lazy(() => import("./pages/Home"));
 const ExpensePage = lazy(() => import("./pages/Expense"));
 const TrainingPage = lazy(() => import("./pages/Training"));
 const ProfilePage = lazy(() => import("./pages/Profile"));
+const TodoPage = lazy(() => import("./pages/Todo"));
 
 function App() {
   const queryClient = new QueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools />
       <BrowserRouter>
         <AuthProvider>
           <Toaster />
@@ -37,6 +39,7 @@ function App() {
                   <Route path="user-expense" element={<ExpensePage />} />
                   <Route path="user-training" element={<TrainingPage />} />
                   <Route path="user-profile" element={<ProfilePage />} />
+                  <Route path="user-todo" element={<TodoPage />} />
                 </Route>
               </Route>
 

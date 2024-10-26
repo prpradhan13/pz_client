@@ -65,6 +65,10 @@ function TrainingForm({ setIsTrainingFormOpen }) {
 
   // Add a new exercise to the training plan
   const addExercise = () => {
+    if (currentExercise.exerciseName === "") {
+      return toast.error("Please add a task")
+    }
+    
     setTrainingFormData((prev) => ({
       ...prev,
       trainingPlan: [...prev.trainingPlan, currentExercise],
@@ -105,7 +109,7 @@ function TrainingForm({ setIsTrainingFormOpen }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(trainingFormData);
+    // console.log(trainingFormData);
     if (trainingFormData.trainingPlan.length > 0) {
       createMutation.mutate();
     } else {
@@ -185,7 +189,6 @@ function TrainingForm({ setIsTrainingFormOpen }) {
                     handleExerciseChange("exerciseName", e.target.value)
                   }
                   className="rounded-lg p-2 text-secondaryText bg-cardBackground outline-none focus:outline-borderColor"
-                  //   required
                 />
 
                 {/* Dynamic Sets */}
@@ -238,7 +241,6 @@ function TrainingForm({ setIsTrainingFormOpen }) {
                     handleExerciseChange("restTime", e.target.value)
                   }
                   className="rounded-lg p-2 text-secondaryText bg-cardBackground outline-none focus:outline-borderColor"
-                  //   required
                 />
               </div>
             </div>
