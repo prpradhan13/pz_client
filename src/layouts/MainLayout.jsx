@@ -26,7 +26,7 @@ function MainLayout() {
       <main className="w-full h-screen bg-mainBgColor flex relative">
         <button
           type="button"
-          onClick={() => setIsSideBarOpen((prev) => !prev)}
+          onClick={() => setIsSideBarOpen(true)}
           className={`${
             isSideBarOpen
               ? "hidden"
@@ -44,7 +44,7 @@ function MainLayout() {
         >
           <button
             type="button"
-            onClick={() => setIsSideBarOpen((prev) => !prev)}
+            onClick={() => setIsSideBarOpen(false)}
             className={`${
               isSideBarOpen ? "text-primaryTextColor" : "lg:hidden"
             } bg-cardBackground p-1 absolute left-[20vw] `}
@@ -52,7 +52,7 @@ function MainLayout() {
             <IoMdClose fontSize={"1.5rem"} />
           </button>
 
-          <SideBar isSideBarOpen={isSideBarOpen} />
+          <SideBar isSideBarOpen={isSideBarOpen} setIsSideBarOpen={setIsSideBarOpen} />
         </div>
         <div className="w-full lg:w-[85vw] h-full">
           <Outlet />

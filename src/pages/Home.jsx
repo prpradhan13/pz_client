@@ -4,10 +4,12 @@ import gsap from "gsap";
 import { ThirdButton } from "../components/buttons/Buttons";
 import ExpenseForm from "../components/forms/ExpenseForm";
 import TrainingForm from "../components/forms/TrainingForm";
+import TodoForm from "../components/forms/TodoForm";
 
 function Home() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isTrainingFormOpen, setIsTrainingFormOpen] = useState(false);
+  const [isTodoFormOpen, setIsTodoFormOpen] = useState(false);
   const box = useRef();
 
   useGSAP(() => {
@@ -34,6 +36,10 @@ function Home() {
     setIsTrainingFormOpen(true)
   };
 
+  const handleTodo = () => {
+    setIsTodoFormOpen(true);
+  };
+
   return (
     <section
       ref={box}
@@ -56,6 +62,9 @@ function Home() {
           <div className="pAnim w-full">
             <ThirdButton btnName={"training"} onClick={handleTraining}/>
           </div>
+          <div className="pAnim w-full">
+            <ThirdButton btnName={"Todo"} onClick={handleTodo}/>
+          </div>
         </div>
       </div>
 
@@ -74,6 +83,15 @@ function Home() {
           className="w-full h-screen bg-black absolute top-0 left-0 bg-opacity-80"
         >
           <TrainingForm setIsTrainingFormOpen={setIsTrainingFormOpen}/>
+        </div>
+      )}
+
+      {isTodoFormOpen && (
+        <div
+          onClick={() => setIsTodoFormOpen(false)}
+          className="w-full h-screen bg-black absolute top-0 left-0 bg-opacity-80"
+        >
+          <TodoForm setIsTodoFormOpen={setIsTodoFormOpen}/>
         </div>
       )}
     </section>

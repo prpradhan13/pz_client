@@ -11,6 +11,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { useState } from "react";
+import { LuListTodo } from "react-icons/lu";
 
 function SideBar({ setIsSideBarOpen }) {
   const [isLogoutLoading, setIsLogoutLoading] = useState(false);
@@ -51,14 +52,19 @@ function SideBar({ setIsSideBarOpen }) {
     setIsSideBarOpen(false)
   }
 
-  useGSAP(() => {
-    gsap.from(".logoAnim", {
-      x: -50,
-      duration: 0.5,
-      opacity: 0,
-      stagger: 0.15,
-    })
-  });
+  const clickTodo = () => {
+    navigate("/user-todo");
+    setIsSideBarOpen(false)
+  }
+
+  // useGSAP(() => {
+  //   gsap.from(".logoAnim", {
+  //     x: -50,
+  //     duration: 0.5,
+  //     opacity: 0,
+  //     stagger: 0.15,
+  //   })
+  // });
 
   return (
     <div className="w-[20vw] flex flex-col items-center md:block md:w-[15vw] bg-cardBackground h-full p-6 font-montserrat fixed top-0 left-0 md:relative">
@@ -73,6 +79,9 @@ function SideBar({ setIsSideBarOpen }) {
           </div>
           <div className="logoAnim">
             <SecondaryButton btnName={"Training"} onClick={clickTraining} btnIcon={<IoFitness />}/>
+          </div>
+          <div className="logoAnim">
+            <SecondaryButton btnName={"Todos"} onClick={clickTodo} btnIcon={<LuListTodo />} />
           </div>
           <div className="logoAnim">
             <SecondaryButton btnName={"Profile"} onClick={clickProfile} btnIcon={<FaRegCircleUser />} />
