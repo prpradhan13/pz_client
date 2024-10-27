@@ -215,7 +215,7 @@ function Todo() {
   }
 
   return (
-    <div className="w-full font-montserrat">
+    <section className="w-full font-montserrat">
       <h1 className="text-center text-primaryTextColor font-semibold text-xl pt-10">
         Your Todos
       </h1>
@@ -425,7 +425,7 @@ function Todo() {
           );
         })}
       </div>
-    </div>
+    </section>
   );
 }
 

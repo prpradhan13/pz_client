@@ -123,7 +123,7 @@ function Expense() {
   // const maxPrice = selectedMonth && Math.max(...expensesByMonth[selectedMonth].expenses.map((e) => e.price));
 
   return (
-    <div className="w-full h-full font-montserrat">
+    <section className="w-full h-full font-montserrat">
       {!selectedMonth ? (
         <div className="pt-10">
           <h1 className="text-center text-primaryTextColor font-semibold text-xl">
@@ -212,7 +212,7 @@ function Expense() {
           </div>
         </div>
       )}
-    </div>
+    </section>
   );
 }
 

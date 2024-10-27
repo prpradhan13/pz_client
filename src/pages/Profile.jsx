@@ -54,7 +54,7 @@ function Profile() {
   }
 
   return (
-    <>
+    <section>
         <div className="pt-20 px-5 font-montserrat flex justify-center">
             <div className="flex flex-col items-center bg-cardBackground rounded-lg p-10">
                 <div className="bg-mainBgColor text-primaryTextColor rounded-full w-[80px] h-[80px] flex justify-center items-center font-bold text-lg">
@@ -89,7 +89,7 @@ function Profile() {
                 <ChangePassword setChangePasswordOpen={setChangePasswordOpen} />
             </div>
         )}
-    </>
+    </section>
   )
 }
 

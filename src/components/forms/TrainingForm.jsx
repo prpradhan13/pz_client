@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { IoClose } from "react-icons/io5";
 import { useMutation } from "@tanstack/react-query";
 import { createTraining } from "../../API/trainingAPI";
+import { useAuth } from "../../context/AuthContext";
 
 const categoryOptions = [
   "high intensity",
@@ -23,6 +24,7 @@ function TrainingForm({ setIsTrainingFormOpen }) {
     trainingName: "",
     category: "",
     trainingPlan: [],
+    isPublic: false,
   });
 
   const [currentExercise, setCurrentExercise] = useState({
@@ -30,6 +32,8 @@ function TrainingForm({ setIsTrainingFormOpen }) {
     sets: [{ repetitions: 0 }],
     restTime: "",
   });
+
+  const { user } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,9 +70,9 @@ function TrainingForm({ setIsTrainingFormOpen }) {
   // Add a new exercise to the training plan
   const addExercise = () => {
     if (currentExercise.exerciseName === "") {
-      return toast.error("Please add a task")
+      return toast.error("Please add a task");
     }
-    
+
     setTrainingFormData((prev) => ({
       ...prev,
       trainingPlan: [...prev.trainingPlan, currentExercise],
@@ -129,7 +133,7 @@ function TrainingForm({ setIsTrainingFormOpen }) {
           onClick={() => setIsTrainingFormOpen(false)}
           className="text-red-500 absolute right-2 top-2"
         >
-          <IoClose fontSize={'1.5rem'} />
+          <IoClose fontSize={"1.5rem"} />
         </button>
         <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
           {/* Training Name */}
@@ -150,6 +154,33 @@ function TrainingForm({ setIsTrainingFormOpen }) {
               className="rounded-lg p-2 text-secondaryText bg-mainBgColor outline-none focus:outline-borderColor"
             />
           </div>
+
+          {user?.isAdmin && (
+            <div className="flex flex-col gap-1">
+              <label
+                htmlFor="trainingName"
+                className="text-lg font-medium text-primaryTextColor"
+              >
+                Is Public:
+              </label>
+              <select
+                id="category"
+                name="category"
+                value={trainingFormData.isPublic}
+                onChange={(e) =>
+                  setTrainingFormData({
+                    ...trainingFormData,
+                    isPublic: e.target.value === "true", // Convert the string to boolean
+                  })
+                }
+                className="rounded-lg p-2 text-secondaryText bg-mainBgColor outline-none focus:outline-borderColor"
+              >
+                <option value="">select</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+            </div>
+          )}
 
           {/* Category */}
           <div className="flex flex-col gap-1">
@@ -177,7 +208,9 @@ function TrainingForm({ setIsTrainingFormOpen }) {
 
           {/* Current Exercise Fields */}
           <div className="">
-            <h2 className="text-lg font-medium text-primaryTextColor">Create Plan</h2>
+            <h2 className="text-lg font-medium text-primaryTextColor">
+              Create Plan
+            </h2>
             <div className="bg-mainBgColor p-2 rounded-lg">
               <div className="flex flex-col gap-1">
                 {/* Exercise Name */}
