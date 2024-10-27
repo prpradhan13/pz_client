@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { createTodo } from "../../API/todoAPI";
 import toast from "react-hot-toast";
@@ -18,6 +18,8 @@ function TodoForm({ setIsTodoFormOpen }) {
   const [currentTask, setCurrentTask] = useState({
     tasktitle: "",
   });
+
+  const queryClient = useQueryClient();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -52,6 +54,7 @@ function TodoForm({ setIsTodoFormOpen }) {
     mutationFn: () => createTodo(todoFormData),
     onSuccess: () => {
       toast.success("Todo created successfully");
+      queryClient.invalidateQueries(["todo"]);
       setTodoFormData({
         title: "",
         dueDate: "",
@@ -69,7 +72,6 @@ function TodoForm({ setIsTodoFormOpen }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(todoFormData);
     if (todoFormData.tasks.length > 0) {
       createMutation.mutate();
     } else {
@@ -142,7 +144,7 @@ function TodoForm({ setIsTodoFormOpen }) {
               onChange={handleChange}
               className="rounded-lg p-2 text-secondaryText bg-mainBgColor outline-none focus:outline-borderColor"
             >
-              <option value=""></option>
+              <option value="">Select</option>
               {priorityOptions.map((item, idx) => (
                 <option key={idx} value={item}>
                   {item}

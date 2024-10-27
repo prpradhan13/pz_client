@@ -23,7 +23,7 @@ function MainLayout() {
 
   return (
     <>
-      <main className="w-full h-screen bg-mainBgColor flex relative">
+      <main className="w-full bg-mainBgColor min-h-screen flex relative">
         <button
           type="button"
           onClick={() => setIsSideBarOpen(true)}
@@ -52,13 +52,21 @@ function MainLayout() {
             <IoMdClose fontSize={"1.5rem"} />
           </button>
 
-          <SideBar isSideBarOpen={isSideBarOpen} setIsSideBarOpen={setIsSideBarOpen} />
+          <div className="w-[20vw] h-full md:w-[15vw] fixed top-0 left-0 z-40">
+            <SideBar
+              isSideBarOpen={isSideBarOpen}
+              setIsSideBarOpen={setIsSideBarOpen}
+            />
+          </div>
         </div>
-        <div className="w-full lg:w-[85vw] h-full">
+        <div className="w-full md:w-[83vw] min-h-full md:relative md:left-[15vw]">
           <Outlet />
         </div>
       </main>
-      <Footer />
+
+      <footer className="w-full bg-mainBgColor">
+        <Footer />
+      </footer>
     </>
   );
 }

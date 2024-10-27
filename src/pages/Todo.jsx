@@ -1,16 +1,37 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getTodoData, updateTaskChange, updateTodoData } from "../API/todoAPI";
+import {
+  getTodoData,
+  removeTask,
+  updateTaskChange,
+  updateTodoData,
+} from "../API/todoAPI";
 import Loaders from "../components/loaders/Loaders";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import { FaPlus, FaRegPenToSquare } from "react-icons/fa6";
 import toast from "react-hot-toast";
 import { IoMdCheckmark, IoMdClose } from "react-icons/io";
+import { MdDelete } from "react-icons/md";
+import { ThirdButton } from "../components/buttons/Buttons";
+import TodoForm from "../components/forms/TodoForm";
 
 function Todo() {
   const [filter, setFilter] = useState("all");
   const [selectedTodoToAddTask, setSelectedTodoToAddTask] = useState(null);
   const [taskInputData, setTaskInputData] = useState("");
+  const [isTodoFormOpen, setIsTodoFormOpen] = useState(false);
+
+  useEffect(() => {
+    if (isTodoFormOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isTodoFormOpen]);
 
   const queryClient = useQueryClient();
 
@@ -26,14 +47,33 @@ function Todo() {
 
   // Filter the todos based on the selected filter
   const filteredTodos = useMemo(() => {
-    return todoData?.filter((todo) => {
-      const remainingDays = dayjs(todo.dueDate).diff(today, "day");
+    return todoData
+      ?.map((todo) => {
+        // Calculate progress percentage for each todo
+        const completedTasks = todo.tasks.filter(
+          (task) => task.completed
+        ).length;
+        const totalTasks = todo.tasks.length;
+        const progressPercentage =
+          totalTasks === 0 ? 0 : (completedTasks / totalTasks) * 100;
 
-      if (filter === "overdue") return remainingDays < 0;
-      if (filter === "dueSoon") return remainingDays >= 0 && remainingDays <= 5;
-      if (filter === "completed") return todo.completed;
-      return true; // Default is to return all todos
-    });
+        const isTodoCompleted = completedTasks === totalTasks && totalTasks > 0;
+
+        return {
+          ...todo,
+          completed: isTodoCompleted, // Update the completed status based on tasks
+          progressPercentage,
+        };
+      })
+      .filter((todo) => {
+        const remainingDays = dayjs(todo.dueDate).diff(today, "day");
+
+        if (filter === "overdue") return remainingDays < 0;
+        if (filter === "dueSoon")
+          return remainingDays >= 0 && remainingDays <= 5;
+        if (filter === "completed") return todo.completed;
+        return true; // Default is to return all todos
+      });
   }, [todoData, filter, today]);
 
   const updateTaskMutation = useMutation({
@@ -84,10 +124,12 @@ function Todo() {
       return;
     }
 
-    const newTask = [{
-      tasktitle: taskInputData,
-      completed: false,
-    }]
+    const newTask = [
+      {
+        tasktitle: taskInputData,
+        completed: false,
+      },
+    ];
 
     // Call the mutation to update the todo with the new task
     updateTodoMutation.mutate({ todoId: selectedTodoToAddTask, newTask });
@@ -97,11 +139,44 @@ function Todo() {
     setSelectedTodoToAddTask(null);
   };
 
-  
-
   const closeTodoInput = () => {
     setTaskInputData("");
     setSelectedTodoToAddTask(null);
+  };
+
+  const taskRemoveMutation = useMutation({
+    mutationFn: (taskId) => removeTask(taskId),
+    onSuccess: (data, taskId) => {
+      queryClient.setQueryData(["todo"], (oldData) => {
+        if (!oldData) return oldData;
+        const updatedTodos = oldData.todos
+          .map((todo) => {
+            if (!todo.tasks.some((task) => task._id === taskId)) return todo;
+
+            const updatedTasks = todo.tasks.filter(
+              (task) => task._id !== taskId
+            );
+
+            // If no tasks are left, return null or mark the todo as needing deletion (optional logic)
+            if (updatedTasks.length === 0) {
+              return null; // Or you could add additional logic to delete the todo entirely
+            }
+
+            // Return the todo with the updated tasks array
+            return {
+              ...todo,
+              tasks: updatedTasks,
+            };
+          })
+          .filter(Boolean); // Filter out null values if any todos were removed entirely
+
+        return { ...oldData, todos: updatedTodos };
+      });
+    },
+  });
+
+  const deleteTask = (taskId) => {
+    taskRemoveMutation.mutate(taskId);
   };
 
   if (isLoading) {
@@ -116,8 +191,31 @@ function Todo() {
     return <div>Error: {error.message}</div>;
   }
 
+  if (todoData.length === 0) {
+    return (
+      <div className="w-full h-full flex justify-center items-center p-10">
+        <div className="w-full md:w-[30vw] h-[30vh] bg-cardBackground rounded-lg flex flex-col justify-center items-center gap-3">
+          <p className="text-primaryTextColor text-2xl font-semibold capitalize">
+            You have no Todos
+          </p>
+          <div onClick={() => setIsTodoFormOpen(true)} className="">
+            <ThirdButton btnName={"create one"} />
+          </div>
+          {isTodoFormOpen && (
+            <div
+              onClick={() => setIsTodoFormOpen(false)}
+              className="w-full h-screen bg-black fixed top-0 left-0 bg-opacity-80 z-50"
+            >
+              <TodoForm setIsTodoFormOpen={setIsTodoFormOpen} />
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="w-full h-full font-montserrat">
+    <div className="w-full font-montserrat">
       <h1 className="text-center text-primaryTextColor font-semibold text-xl pt-10">
         Your Todos
       </h1>
@@ -173,22 +271,53 @@ function Todo() {
               key={todo._id}
               className="md:min-w-[350px] p-4 bg-cardBackground rounded-lg shadow-md cursor-pointer"
             >
+              {/* Progress Bar */}
+              <div className="w-full bg-mainBgColor rounded-full h-1 mb-1">
+                <div
+                  className={`h-1 rounded-full ${
+                    todo.progressPercentage === 100
+                      ? "bg-[rgb(0_128_0)]"
+                      : todo.progressPercentage >= 75
+                      ? "bg-[#22c55e]"
+                      : todo.progressPercentage >= 50
+                      ? "bg-[#fde047]"
+                      : "bg-[#f97316]"
+                  }`}
+                  style={{ width: `${todo.progressPercentage}%` }}
+                ></div>
+              </div>
+
               <div className="flex justify-between items-center">
                 <span
                   className={`${
-                    todo.completed ? "bg-green-500" : "bg-[#d1b82b]"
-                  } py-1 px-2 rounded-md text-black font-semibold text-xs`}
+                    todo.progressPercentage === 100
+                      ? "bg-[rgb(0_128_0)]"
+                      : todo.progressPercentage >= 75
+                      ? "bg-[#22c55e]"
+                      : todo.progressPercentage >= 50
+                      ? "bg-[#fde047]"
+                      : "bg-[#f97316]"
+                  } py-1 px-2 rounded-md text-mainBgColor font-semibold text-sm`}
                 >
-                  {todo.completed ? "Completed" : "Pending"}
+                  {/* {todo.completed ? "Completed" : "Pending"} */}
+                  {`${todo.tasks.filter((task) => task.completed).length}/${
+                    todo.tasks.length
+                  }`}
                 </span>
                 <p
                   className={`font-medium text-sm ${
                     remainingDays <= 3 ? "text-red-500" : "text-secondaryText "
                   }`}
                 >
-                  {remainingDays >= 0
-                    ? `Left ${remainingDays} day(s)`
-                    : `Overdue by ${Math.abs(remainingDays)} day(s)`}
+                  {todo.completed ? (
+                    <></>
+                  ) : (
+                    <>
+                      {remainingDays >= 0
+                        ? `Left ${remainingDays} day(s)`
+                        : `Overdue by ${Math.abs(remainingDays)} day(s)`}
+                    </>
+                  )}
                 </p>
               </div>
 
@@ -268,7 +397,9 @@ function Todo() {
                         />
                         <p
                           className={`capitalize font-medium ${
-                            task.completed ? "line-through text-gray-600" : "text-secondaryText"
+                            task.completed
+                              ? "line-through text-gray-600"
+                              : "text-secondaryText"
                           }`}
                         >
                           {task.tasktitle}
@@ -279,6 +410,13 @@ function Todo() {
                           </span>
                         )}
                       </div>
+
+                      <button
+                        onClick={() => deleteTask(task._id, todo._id)}
+                        className="text-red-500"
+                      >
+                        <MdDelete fontSize={"1.2rem"} />
+                      </button>
                     </div>
                   ))}
                 </div>

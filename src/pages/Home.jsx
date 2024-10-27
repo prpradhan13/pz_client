@@ -1,5 +1,5 @@
 import { useGSAP } from "@gsap/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ThirdButton } from "../components/buttons/Buttons";
 import ExpenseForm from "../components/forms/ExpenseForm";
@@ -11,6 +11,18 @@ function Home() {
   const [isTrainingFormOpen, setIsTrainingFormOpen] = useState(false);
   const [isTodoFormOpen, setIsTodoFormOpen] = useState(false);
   const box = useRef();
+
+  useEffect(() => {
+    if (isFormOpen || isTrainingFormOpen || isTodoFormOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isFormOpen, isTrainingFormOpen, isTodoFormOpen]);
 
   useGSAP(() => {
     let tl = gsap.timeline();
@@ -55,14 +67,14 @@ function Home() {
         <p className="pAnim text-secondaryText font-medium tracking-widest leading-7 text-base">
           No worry,We take care of you.
         </p>
-        <div className="flex gap-3">
-          <div className="pAnim w-full">
+        <div className="flex gap-3 items-center justify-center flex-wrap md:flex-nowrap">
+          <div className="pAnim md:w-full">
             <ThirdButton btnName={"expense"} onClick={handleExpense}/>
           </div>
-          <div className="pAnim w-full">
+          <div className="pAnim md:w-full">
             <ThirdButton btnName={"training"} onClick={handleTraining}/>
           </div>
-          <div className="pAnim w-full">
+          <div className="pAnim md:w-full">
             <ThirdButton btnName={"Todo"} onClick={handleTodo}/>
           </div>
         </div>
@@ -71,7 +83,7 @@ function Home() {
       {isFormOpen && (
         <div
           onClick={() => setIsFormOpen(false)}
-          className="w-full h-screen bg-black absolute top-0 left-0 bg-opacity-80"
+          className="w-full h-screen bg-black fixed top-0 left-0 bg-opacity-80 z-50"
         >
           <ExpenseForm setIsFormOpen={setIsFormOpen}/>
         </div>
@@ -80,7 +92,7 @@ function Home() {
       {isTrainingFormOpen && (
         <div
           onClick={() => setIsTrainingFormOpen(false)}
-          className="w-full h-screen bg-black absolute top-0 left-0 bg-opacity-80"
+          className="w-full h-screen bg-black fixed top-0 left-0 bg-opacity-80 z-50"
         >
           <TrainingForm setIsTrainingFormOpen={setIsTrainingFormOpen}/>
         </div>
@@ -89,7 +101,7 @@ function Home() {
       {isTodoFormOpen && (
         <div
           onClick={() => setIsTodoFormOpen(false)}
-          className="w-full h-screen bg-black absolute top-0 left-0 bg-opacity-80"
+          className="w-full h-screen bg-black fixed top-0 left-0 bg-opacity-80 z-50"
         >
           <TodoForm setIsTodoFormOpen={setIsTodoFormOpen}/>
         </div>

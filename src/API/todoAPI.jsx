@@ -47,3 +47,12 @@ export const updateTaskChange = async (todoId, taskId, taskTitle, isCompleted) =
       console.error("Error updating task completion", error.response || error);
     }
 };
+
+export const removeTask = async (taskId) => {
+    try {
+        const res = await api.delete(`/api/v1/todo/task/${taskId}`, {withCredentials: true});
+        return res.status === 200 ? res.data : []
+    } catch (error) {
+        console.error("Error updating task completion", error.response || error);
+    }
+}

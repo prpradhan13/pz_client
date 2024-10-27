@@ -57,22 +57,22 @@ function SideBar({ setIsSideBarOpen }) {
     setIsSideBarOpen(false)
   }
 
-  // useGSAP(() => {
-  //   gsap.from(".logoAnim", {
-  //     x: -50,
-  //     duration: 0.5,
-  //     opacity: 0,
-  //     stagger: 0.15,
-  //   })
-  // });
+  useGSAP(() => {
+    gsap.from(".logoAnim", {
+      x: -50,
+      duration: 0.5,
+      opacity: 0,
+      stagger: 0.15,
+    })
+  });
 
   return (
-    <div className="w-[20vw] flex flex-col items-center md:block md:w-[15vw] bg-cardBackground h-full p-6 font-montserrat fixed top-0 left-0 md:relative">
+    <div className="w-full flex flex-col items-center md:block bg-cardBackground h-full p-6 font-montserrat">
       
       <div className="flex justify-between pb-2">
         <h1 className="logoAnim text-borderColor font-pacifico font-extrabold text-2xl">PZ</h1>
       </div>
-      <div className="w-[10vw] flex flex-col justify-between h-full md:h-0">
+      <div className="w-[10vw] flex flex-col justify-between h-full md:h-screen">
         <div className="flex flex-col gap-2 pt-4">
           <div className="logoAnim">
             <SecondaryButton btnName={"Expenses"} onClick={clickExpense} btnIcon={<SiExpensify />}/>
@@ -86,8 +86,11 @@ function SideBar({ setIsSideBarOpen }) {
           <div className="logoAnim">
             <SecondaryButton btnName={"Profile"} onClick={clickProfile} btnIcon={<FaRegCircleUser />} />
           </div>
+          <div className="hidden md:block logoAnim md:mt-2">
+            <SecondaryButton btnName={"Logout"} onClick={handleLogout} btnIcon={<IoLogOutOutline />} btnColor="text-red-500" isLoading={isLogoutLoading} />
+          </div>
         </div>
-        <div className="logoAnim md:mt-2">
+        <div className="logoAnim md:hidden md:mt-2">
           <SecondaryButton btnName={"Logout"} onClick={handleLogout} btnIcon={<IoLogOutOutline />} btnColor="text-red-500" isLoading={isLogoutLoading} />
         </div>
       </div>
