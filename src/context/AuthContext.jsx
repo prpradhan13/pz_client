@@ -2,6 +2,7 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Loaders from "../components/loaders/Loaders";
 
 const AuthContext = createContext();
 
@@ -17,7 +18,7 @@ export function AuthProvider({ children }) {
           const { data } = await axios.get(
             `${import.meta.env.VITE_API_URL}/api/v1/user/auth-check`,
             {
-              withCredentials: true, // Ensure cookies are sent
+              withCredentials: true,
             }
           );
   
@@ -44,7 +45,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading while checking auth status
+    return <div className="w-full"> <Loaders /> </div>; // Show loading while checking auth status
   }
 
   return (
