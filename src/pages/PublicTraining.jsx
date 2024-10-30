@@ -12,15 +12,16 @@ import TrainingDetails from "../components/TrainingDetails";
 import { useAuth } from "../context/AuthContext";
 import { IoMdCheckmark, IoMdClose } from "react-icons/io";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 function PublicTraining() {
   const [trainingDetailsOpen, setTrainingDetailsOpen] = useState(false);
   const [selectedTraining, setSelectedTraining] = useState(null);
-  const [selectedTrainingToDelete, setSelectedTrainingToDelete] =
-    useState(false);
+  const [selectedTrainingToDelete, setSelectedTrainingToDelete] = useState(false);
     
-    const { user } = useAuth();
-    const queryClient = useQueryClient();
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
     
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 10;
@@ -85,6 +86,10 @@ function PublicTraining() {
     toast.success("Training deleted successfully");
   };
 
+  const handleWeeklyPlan = () => {
+    navigate('/weeklyplan')
+  }
+
   if (isLoading) {
     return (
       <div>
@@ -125,8 +130,14 @@ function PublicTraining() {
               <MdOutlineKeyboardArrowRight fontSize={"1.1rem"} />
             </button>
           </div>
-
-          <div className="grid lg:grid-cols-4 mx-10 mt-5 gap-4">
+          <button
+              type="button"
+              onClick={handleWeeklyPlan}
+              className="mt-5 bg-borderColor rounded-md w-[150px] text-primaryTextColor font-semibold p-1"
+            >
+              Weekly Plans
+            </button>
+          <div className="grid lg:grid-cols-4 mt-5 gap-4">
             {trainingData.map((training) => (
               <div
                 key={training._id}

@@ -25,14 +25,14 @@ function Training() {
 
   const queryClient = useQueryClient();
 
-  useGSAP(() => {
-    gsap.from(".cardAnim", {
-      scale: 0.5,
-      duration: 0.5,
-      opacity: 0,
-      stagger: 0.15,
-    })
-  })
+  // useGSAP(() => {
+  //   gsap.from(".cardAnim", {
+  //     scale: 0.5,
+  //     duration: 0.5,
+  //     opacity: 0,
+  //     stagger: 0.15,
+  //   });
+  // });
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["training"],
@@ -88,8 +88,8 @@ function Training() {
   };
 
   const handleExplorePlan = () => {
-    navigate('/publicTrainingPlan')
-  }
+    navigate("/publicTrainingPlan");
+  };
 
   if (isLoading) {
     return (
@@ -149,71 +149,65 @@ function Training() {
               Explore Plans
             </button>
             {user?.isAdmin ? (
-              <>
-                <div className="grid lg:grid-cols-4 mx-10 mt-3 gap-4">
-                  {allTainingData?.map((trainData) => (
-                    <div
-                      key={trainData._id}
-                      onClick={() => clickOnTrainingData(trainData)}
-                      className="cardAnim p-4 bg-cardBackground rounded-lg shadow-md cursor-pointer relative overflow-hidden"
+              <div className="grid lg:grid-cols-4 mx-10 mt-3 gap-4">
+                {allTainingData?.map((trainData) => (
+                  <div
+                    key={trainData._id}
+                    onClick={() => clickOnTrainingData(trainData)}
+                    className="cardAnim p-4 bg-cardBackground rounded-lg shadow-md cursor-pointer relative overflow-hidden"
+                  >
+                    <span
+                      className={`${
+                        trainData?.isPublic
+                          ? " bg-[#94ff96]"
+                          : "bg-[#84fdff]"
+                      } p-1 text-xs font-semibold rounded-md`}
                     >
-                      {user?.isAdmin && (
-                        <span
-                          className={`${
-                            trainData?.isPublic
-                              ? "p-1 bg-[#5eff61] text-xs font-semibold rounded-md"
-                              : ""
-                          }`}
-                        >
-                          {trainData?.isPublic ? "Public" : ""}
-                        </span>
-                      )}
-                      <div className="flex justify-between">
-                        <h3 className="text-lg font-bold text-borderColor capitalize">
-                          {trainData.trainingName}
-                        </h3>
+                      {trainData?.isPublic ? "Public" : "Not Public"}
+                    </span>
+                    <div className="flex justify-between">
+                      <h3 className="text-lg font-bold text-borderColor capitalize">
+                        {trainData.trainingName}
+                      </h3>
+                      <button
+                        onClick={(e) => clickOnDeleteTraining(e, trainData._id)}
+                        className="text-red-500"
+                      >
+                        <MdDeleteOutline fontSize={"1.5rem"} />
+                      </button>
+                    </div>
+                    <h4 className="font-medium text-secondaryText capitalize">
+                      {trainData.category} Workout
+                    </h4>
+                    <p className="capitalize text-secondaryText font-medium">
+                      created at: {dateOfTrainingCreate}
+                    </p>
+
+                    {selectedTrainingToDelete === trainData._id && (
+                      <div
+                        onClick={(e) => e.stopPropagation()}
+                        className="bg-black bg-opacity-95 w-full h-full absolute top-0 left-0 flex justify-center items-center"
+                      >
                         <button
-                          onClick={(e) =>
-                            clickOnDeleteTraining(e, trainData._id)
-                          }
-                          className="text-red-500"
+                          type="button"
+                          onClick={() => handleTrainingDelete(trainData._id)}
+                          className="bg-cardBackground p-2 rounded-lg text-green-500 font-medium mr-3"
+                          disabled={isDeleting}
                         >
-                          <MdDeleteOutline fontSize={"1.5rem"} />
+                          <IoMdCheckmark fontSize={"1.2rem"} />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedTrainingToDelete(null)}
+                          className="bg-cardBackground p-2 rounded-lg text-red-500 font-medium"
+                        >
+                          <IoMdClose fontSize={"1.2rem"} />
                         </button>
                       </div>
-                      <h4 className="font-medium text-secondaryText capitalize">
-                        {trainData.category} Workout
-                      </h4>
-                      <p className="capitalize text-secondaryText font-medium">
-                        created at: {dateOfTrainingCreate}
-                      </p>
-
-                      {selectedTrainingToDelete === trainData._id && (
-                        <div
-                          onClick={(e) => e.stopPropagation()}
-                          className="bg-black bg-opacity-95 w-full h-full absolute top-0 left-0 flex justify-center items-center"
-                        >
-                          <button
-                            type="button"
-                            onClick={() => handleTrainingDelete(trainData._id)}
-                            className="bg-cardBackground p-2 rounded-lg text-green-500 font-medium mr-3"
-                            disabled={isDeleting}
-                          >
-                            <IoMdCheckmark fontSize={"1.2rem"} />
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => setSelectedTrainingToDelete(null)}
-                            className="bg-cardBackground p-2 rounded-lg text-red-500 font-medium"
-                          >
-                            <IoMdClose fontSize={"1.2rem"} />
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </>
+                    )}
+                  </div>
+                ))}
+              </div>
             ) : (
               <div className="grid lg:grid-cols-4 mx-10 mt-3 gap-4">
                 {nonPublicData?.map((trainData) => (

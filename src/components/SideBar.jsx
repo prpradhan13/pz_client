@@ -86,7 +86,7 @@ function SideBar({ setIsSideBarOpen }) {
           <div className="logoAnim">
             <SecondaryButton btnName={"Profile"} onClick={clickProfile} btnIcon={<FaRegCircleUser />} />
           </div>
-          <div className="hidden md:block logoAnim md:mt-2">
+          <div className="hidden md:block logoAnim">
             <SecondaryButton btnName={"Logout"} onClick={handleLogout} btnIcon={<IoLogOutOutline />} btnColor="text-red-500" isLoading={isLogoutLoading} />
           </div>
         </div>

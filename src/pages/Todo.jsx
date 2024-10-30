@@ -76,6 +76,9 @@ function Todo() {
       });
   }, [todoData, filter, today]);
 
+  console.log(filteredTodos);
+  
+
   const updateTaskMutation = useMutation({
     mutationFn: ({ todoId, taskId, taskTitle, isCompleted }) =>
       updateTaskChange(todoId, taskId, taskTitle, isCompleted),
@@ -272,7 +275,7 @@ function Todo() {
               className="md:min-w-[350px] p-4 bg-cardBackground rounded-lg shadow-md cursor-pointer"
             >
               {/* Progress Bar */}
-              <div className="w-full bg-mainBgColor rounded-full h-1 mb-1">
+              <div className="w-full bg-mainBgColor rounded-full h-1 mb-2">
                 <div
                   className={`h-1 rounded-full ${
                     todo.progressPercentage === 100
@@ -287,7 +290,7 @@ function Todo() {
                 ></div>
               </div>
 
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center mb-2">
                 <span
                   className={`${
                     todo.progressPercentage === 100
@@ -310,7 +313,7 @@ function Todo() {
                   }`}
                 >
                   {todo.completed ? (
-                    <></>
+                    <><span className="text-green-500">Completed</span></>
                   ) : (
                     <>
                       {remainingDays >= 0
@@ -321,17 +324,28 @@ function Todo() {
                 </p>
               </div>
 
-              <div className="my-4">
-                <h2 className="text-base font-bold text-borderColor capitalize">
-                  {`${todo.title === "" ? "No title" : todo.title}`}
-                </h2>
-                <p className="text-secondaryText font-medium text-sm">
-                  Created: {createdAt}
-                </p>
-                <p className="text-secondaryText font-medium text-sm">
-                  Due Date: {dueDate}
-                </p>
-              </div>
+              {todo.dueDate === today || createdAt ? (
+                <div className="">
+                  <h2 className="text-xl font-bold text-borderColor capitalize">
+                    {`${todo.title === "" ? "Today's Tasks" : todo.title}`}
+                  </h2>
+                  <p className="text-secondaryText font-medium text-sm">
+                    Due Date: {dueDate}
+                  </p>
+                </div>
+              ) : (
+                <div className="my-4">
+                  <h2 className="text-base font-bold text-borderColor capitalize">
+                    {`${todo.title === "" ? "No title" : todo.title}`}
+                  </h2>
+                  <p className="text-secondaryText font-medium text-sm">
+                    Created: {createdAt}
+                  </p>
+                  <p className="text-secondaryText font-medium text-sm">
+                    Due Date: {dueDate}
+                  </p>
+                </div>
+              )}
 
               <div className="">
                 <div className="flex justify-between">
@@ -379,36 +393,31 @@ function Todo() {
                   {todo.tasks?.map((task) => (
                     <div
                       key={task._id}
-                      className="flex gap-2 justify-between items-center mb-2"
+                      className="flex gap-3 justify-between items-center mb-3"
                     >
-                      <div className="flex gap-2">
-                        <input
-                          type="checkbox"
-                          checked={task.completed}
-                          onChange={(e) =>
-                            handleTaskChange(
-                              todo._id,
-                              task._id,
-                              task.tasktitle,
-                              e.target.checked
-                            )
-                          }
-                          className="cursor-pointer"
-                        />
+                      <div className="flex gap-3">
+                          <input
+                            type="checkbox"
+                            checked={task.completed}
+                            onChange={(e) =>
+                              handleTaskChange(
+                                todo._id,
+                                task._id,
+                                task.tasktitle,
+                                e.target.checked
+                              )
+                            }
+                            className="cursor-pointer bg-transparent"
+                          />
                         <p
                           className={`capitalize font-medium ${
                             task.completed
                               ? "line-through text-gray-600"
                               : "text-secondaryText"
-                          }`}
+                          } w-80 leading-4`}
                         >
                           {task.tasktitle}
                         </p>
-                        {task.completed && (
-                          <span className="text-green-500">
-                            <IoMdCheckmark fontSize={"1.2rem"} />
-                          </span>
-                        )}
                       </div>
 
                       <button

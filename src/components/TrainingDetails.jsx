@@ -2,6 +2,8 @@
 import { MdKeyboardArrowLeft } from "react-icons/md";
 
 function TrainingDetails({ selectedTraining, setTrainingDetailsOpen }) {
+  const exercisePlan = selectedTraining.trainingPlan || selectedTraining.workoutPlan;
+
   return (
     <div className="w-full h-full p-5 scrollbar-hidden-y overflow-y-scroll font-montserrat">
       <button
@@ -14,11 +16,11 @@ function TrainingDetails({ selectedTraining, setTrainingDetailsOpen }) {
 
       <div className="w-full p-6 rounded-lg">
         <h1 className="text-primaryTextColor font-bold text-center text-2xl pb-5 border-b-2 border-borderColor capitalize">
-          {selectedTraining?.trainingName || "Training Plan"}
+          {selectedTraining?.trainingName || selectedTraining?.name ? (selectedTraining?.trainingName || selectedTraining?.name) : ("Training Plan")}
         </h1>
 
         <div className="grid md:grid-cols-2 md:gap-3">
-          {selectedTraining?.trainingPlan?.map((exercise, exerciseIndex) => (
+          {exercisePlan.map((exercise, exerciseIndex) => (
             <div
               key={exerciseIndex}
               className="my-5 p-4 bg-cardBackground rounded-lg"

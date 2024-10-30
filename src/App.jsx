@@ -16,6 +16,7 @@ const TrainingPage = lazy(() => import("./pages/Training"));
 const ProfilePage = lazy(() => import("./pages/Profile"));
 const TodoPage = lazy(() => import("./pages/Todo"));
 const PublicTrainingPage = lazy(() => import("./pages/PublicTraining"));
+const WeeklyPlanPage = lazy(() => import("./pages/WeeklyPlan"));
 
 function App() {
   const queryClient = new QueryClient();
@@ -41,6 +42,7 @@ function App() {
                   <Route path="user-profile" element={<ProfilePage />} />
                   <Route path="user-todo" element={<TodoPage />} />
                   <Route path="publicTrainingPlan" element={<PublicTrainingPage />} />
+                  <Route path="weeklyplan" element={<WeeklyPlanPage />} />
                 </Route>
               </Route>
 
