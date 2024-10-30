@@ -414,7 +414,7 @@ function Todo() {
                             task.completed
                               ? "line-through text-gray-600"
                               : "text-secondaryText"
-                          } w-80 leading-4`}
+                          } md:w-80 leading-4`}
                         >
                           {task.tasktitle}
                         </p>
